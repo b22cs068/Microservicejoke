@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Microservices Frontend</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 10px 0;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-size: 1.2em;
+      color: #555;
+      padding: 10px;
+      background: #eef;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Microservices Frontend</h1>
+
+    <button id="getQuote">Get Motivational Quote</button>
+    <p id="quoteResult" class="result">Click to get a quote.</p>
+
+    <button id="getJoke">Get Random Joke</button>
+    <p id="jokeResult" class="result">Click to get a joke.</p>
+  </div>
+
+  <script>
+    // Replace with actual IPs or hostnames of your VMs
+    const quoteServiceUrl = 'http://10.0.2.4:3000/api/quote';
+    const jokeServiceUrl = 'http://10.0.2.15:3000/api/joke';
+
+    document.getElementById('getQuote').addEventListener('click', function() {
+  fetch(quoteServiceUrl)
+    .then(response => response.json())
+    .then(data => {
+      console.log("Received quote:", data); // Debugging log
+      document.getElementById('quoteResult').innerText = '💡 Quote: ' + data.message; // ✅ Correct key
+    })
+    .catch(error => {
+      console.error('Error fetching quote:', error);
+      document.getElementById('quoteResult').innerText = '⚠️ Error fetching quote.';
+    });
+});
+
+
+    document.getElementById('getJoke').addEventListener('click', function() {
+      fetch(jokeServiceUrl)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('jokeResult').innerText = '😂 Joke: ' + data.joke;
+        })
+        .catch(error => {
+          console.error('Error fetching joke:', error);
+          document.getElementById('jokeResult').innerText = '⚠️ Error fetching joke.';
+        });
+    });
+  </script>
+</body>
+</html>
+
